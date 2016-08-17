@@ -6,27 +6,28 @@ public class RandomPather : MonoBehaviour {
 	public float closeEnough = 1.0f;
 	public GameObject goalMarkerPrefab;
 
-	private SeekGoal _seekGoal;
+	private ArriveGoal _arriveGoal;
 	private Vector3 _nextGoal;
 	private GameObject _goalMarker;
 
 
 	void Awake(){
-		_seekGoal = gameObject.AddComponent<SeekGoal> ();
+		_arriveGoal = gameObject.AddComponent<ArriveGoal> ();
+		_arriveGoal.arriveThreshold = 20;
 		_nextGoal = ChooseGoal ();
 		_goalMarker = Instantiate(goalMarkerPrefab) as GameObject;
 	}
 
 	void OnEnable(){
-		_seekGoal.enabled = true;
+		_arriveGoal.enabled = true;
 	}
 
 	void OnDisable(){
-		_seekGoal.enabled = false;
+		_arriveGoal.enabled = false;
 	}
 
 	void OnDestroy(){
-		Destroy (_seekGoal);
+		Destroy (_arriveGoal);
 	}
 
 	void Update(){
@@ -35,8 +36,8 @@ public class RandomPather : MonoBehaviour {
 			_nextGoal = ChooseGoal();
 		}
 
-		_seekGoal.target = _nextGoal;
-		_goalMarker.transform.position = _nextGoal;
+		_arriveGoal.arriveTarget = _nextGoal;
+		_goalMarker.transform.position = _nextGoal + _goalMarker.transform.lossyScale/2;
 	}
 
 	Vector3 ChooseGoal(){
