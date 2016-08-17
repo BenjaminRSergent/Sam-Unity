@@ -4,7 +4,7 @@ using System.Collections;
 public class ArriveGoal : Goal {
 	public Vector3 arriveTarget;
 	public float arriveThreshold = 5.0f;
-	public bool quadratic = true;
+	public bool quadratic = false;
 
 	void FixedUpdate(){
 		float distance = Vector3.Distance (transform.position, arriveTarget);

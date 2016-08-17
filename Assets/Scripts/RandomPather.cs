@@ -13,7 +13,7 @@ public class RandomPather : MonoBehaviour {
 
 	void Awake(){
 		_arriveGoal = gameObject.AddComponent<ArriveGoal> ();
-		_arriveGoal.arriveThreshold = 20;
+		_arriveGoal.arriveThreshold = 10;
 		_nextGoal = ChooseGoal ();
 		_goalMarker = Instantiate(goalMarkerPrefab) as GameObject;
 	}
