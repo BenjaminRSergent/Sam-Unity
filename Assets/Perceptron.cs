@@ -101,13 +101,29 @@ public class Perceptron : MonoBehaviour {
 
 		_members = GroupManager.getAllMembers ();
 		trainingSet = new TrainingEntry[_members.Count];
+
+		Vector2 xRange = new Vector2(float.MaxValue, float.MinValue);
+		Vector2 yRange = new Vector2(float.MaxValue, float.MinValue);
+		Vector2 zRange = new Vector2(float.MaxValue, float.MinValue);
+
+		for (int memberIndex = 0; memberIndex < _members.Count; memberIndex++) {
+			xRange.x = Mathf.Min (xRange.x, _members [memberIndex].transform.position.x);
+			xRange.y = Mathf.Max (xRange.y, _members [memberIndex].transform.position.x);
+
+			yRange.x = Mathf.Min (yRange.x, _members [memberIndex].transform.position.y);
+			yRange.y = Mathf.Max (yRange.y, _members [memberIndex].transform.position.y);
+
+			zRange.x = Mathf.Min (zRange.x, _members [memberIndex].transform.position.z);
+			zRange.y = Mathf.Max (zRange.y, _members [memberIndex].transform.position.z);
+		}
+
 		for(int memberIndex = 0; memberIndex < _members.Count; memberIndex++) {
 			GroupMember member = _members [memberIndex];
 
 			trainingSet [memberIndex].features = new float[NUM_FEATURES];
-			trainingSet [memberIndex].features [0] = member.transform.position.x;
-			trainingSet [memberIndex].features [1] = member.transform.position.y;
-			trainingSet [memberIndex].features [2] = member.transform.position.z;
+			trainingSet [memberIndex].features [0] = (member.transform.position.x - xRange.x) / (xRange.y - xRange.x);
+			trainingSet [memberIndex].features [1] = (member.transform.position.y - yRange.x) / (yRange.y - yRange.x);
+			trainingSet [memberIndex].features [2] = (member.transform.position.z - zRange.x) / (zRange.y - zRange.x);
 			trainingSet [memberIndex].trueId = member.groupDef.id;
 
 			trainingSet [memberIndex].member = member;
