@@ -5,5 +5,5 @@ using System.Collections.Generic;
 [System.Serializable]
 public struct GroupDefinition {
 	public int id;
-	public Area spawnArea;
+	public Volume spawnArea;
 }

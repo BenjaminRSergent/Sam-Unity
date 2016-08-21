@@ -7,7 +7,7 @@ public class GroupSpawner : MonoBehaviour {
 	public GroupMember groupAMemberPrefab;
 	public GroupMember groupBMemberPrefab;
 
-	int numToSpawn = 100;
+	public int numToSpawn = 1000;
 
 	// Use this for initialization
 	void Start () {
@@ -31,7 +31,7 @@ public class GroupSpawner : MonoBehaviour {
 		GroupManager.AddMember (member);
 	}
 
-	void PlaceInArea (GameObject member, Area spawnArea) {
+	void PlaceInArea (GameObject member, Volume spawnArea) {
 		Vector3 offset = new Vector3 (spawnArea.size.x * Random.value,
 			                          spawnArea.size.y * Random.value,
 			                          spawnArea.size.z * Random.value);

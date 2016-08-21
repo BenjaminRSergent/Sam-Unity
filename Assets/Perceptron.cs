@@ -22,14 +22,29 @@ public class Perceptron : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			RunLearningStep();
 		}
+
+		if (Input.GetKeyDown (KeyCode.P)) {
+			StartCoroutine("LearningRoutine");
+		}
+
+		if (Input.GetKeyDown (KeyCode.S)) {
+			StopCoroutine ("LearningRoutine");
+		}
 	}
 
+	IEnumerator LearningRoutine() {
+		while (true) {
+			RunLearningStep ();
+			yield return 0;
+		}
+	}
 
 
 	void RunLearningStep () {
 		if (!_initalized) {
 			Initalize ();
 		}
+		int errors = 0;
 		for(int memberIndex = 0; memberIndex < _members.Count; memberIndex++) {
 			TrainingEntry entry = trainingSet [memberIndex];
 			int classification = classifyMember (entry);
@@ -39,6 +54,8 @@ public class Perceptron : MonoBehaviour {
 			if (diff == 0) {
 				continue;
 			}
+
+			errors++;
 			for (int index = 0; index < entry.features.Length; index++) {
 				weights [index] += diff * entry.features [index];
 			}
@@ -46,6 +63,14 @@ public class Perceptron : MonoBehaviour {
 			skew += diff;
 		}
 
+		Debug.Log ("=======================");
+		Debug.Log ("Percent error: " + (errors/(float)_members.Count * 100) + "%");
+
+		for (int index = 0; index < weights.Length; index++) {
+			Debug.Log ("Weight[" + index + "]: " + weights[index]);
+		}
+		Debug.Log ("Skew: " + skew);
+		Debug.Log ("=======================");
 
 	}
 
