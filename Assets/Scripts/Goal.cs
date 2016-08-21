@@ -13,7 +13,7 @@ public class Goal : MonoBehaviour {
 		_entMover = GetComponent<EntityMover> ();
 	}
 
-	protected Vector3 GetAvoidForce(Vector3 avoidTarget, float maxAvoidDistance, bool quadratic = true, int min = 0, int max = 1){
+	protected Vector3 GetAvoidForce(Vector3 avoidTarget, float maxAvoidDistance, bool quadratic = true, float min = 0, float max = 1){
 		float distance = Vector3.Distance (transform.position, avoidTarget);
 		if (distance > maxAvoidDistance) {
 			return Vector3.zero;
@@ -41,7 +41,6 @@ public class Goal : MonoBehaviour {
 	}
 
 	protected Vector3 GetForceForDesired(Vector3 desiredVelo){
-		return desiredVelo - _entMover.Velocity;
-		
+		return (desiredVelo - _entMover.Velocity)/Time.fixedDeltaTime;
 	}
 }

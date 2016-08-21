@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(EntityBrain))]
 public class RandomPather : MonoBehaviour {
 	public float range = 50;
 	public float closeEnough = 1.0f;
 	public GameObject goalMarkerPrefab;
+	public float arriveThreshold = 10.0f;
+	public bool drawGizmo = true;
 
 	private ArriveGoal _arriveGoal;
 	private Vector3 _nextGoal;
@@ -13,9 +16,12 @@ public class RandomPather : MonoBehaviour {
 
 	void Awake(){
 		_arriveGoal = gameObject.AddComponent<ArriveGoal> ();
-		_arriveGoal.arriveThreshold = 10;
+		_arriveGoal.arriveThreshold = arriveThreshold;
+		_arriveGoal.drawGizmo = drawGizmo;
 		_nextGoal = ChooseGoal ();
-		_goalMarker = Instantiate(goalMarkerPrefab) as GameObject;
+		if (goalMarkerPrefab != null) {
+			_goalMarker = Instantiate (goalMarkerPrefab) as GameObject;
+		}
 	}
 
 	void OnEnable(){
@@ -37,7 +43,10 @@ public class RandomPather : MonoBehaviour {
 		}
 
 		_arriveGoal.arriveTarget = _nextGoal;
-		_goalMarker.transform.position = _nextGoal + _goalMarker.transform.lossyScale/2;
+
+		if (_goalMarker != null) {
+			_goalMarker.transform.position = _nextGoal + _goalMarker.transform.lossyScale / 2;
+		}
 	}
 
 	Vector3 ChooseGoal(){

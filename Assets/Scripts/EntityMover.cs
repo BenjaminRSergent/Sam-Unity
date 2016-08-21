@@ -23,7 +23,10 @@ public class EntityMover : MonoBehaviour {
 	void FixedUpdate(){
 		EnforceMaxSpeed ();
 		_charCon.Move (_velocity * Time.deltaTime);
-		transform.LookAt (transform.position + _velocity);
+
+		Quaternion targetRot = Quaternion.LookRotation (_velocity.normalized);
+
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, 0.05f);
 	}
 
 	void EnforceMaxSpeed () {
